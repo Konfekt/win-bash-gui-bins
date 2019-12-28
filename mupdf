@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if command -v mupdf.exe  >/dev/null 2>&1; then
+  mupdf.exe "$@" &
+else
+  echo "No executable mupdf.exe  found!"
+fi

@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if command -v gimp.exe  >/dev/null 2>&1; then
+  gimp.exe "$@" &
+elif [ -d "${ProgramFiles}/GIMP 2" ]; then
+  cd "${ProgramFiles}/GIMP 2"
+  gimp="$(ls "./bin/"gimp-2.*.exe)"
+  $gimp "$@" &
+elif [ -d "${ProgramFiles}/GIMP 2" ]; then
+  cd "${ProgramFiles} (x86)/GIMP 2"
+  gimp="$(ls "./bin/"gimp-2.*.exe)"
+  $gimp "$@" &
+else
+  echo "No executable gimp.exe found!"
+fi

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if command -v okular.exe  >/dev/null 2>&1; then
+  okular.exe "$@" &
+elif command -v "${ProgramFiles}/Okular/bin"/okular.exe >/dev/null 2>&1; then
+  cd "${ProgramFiles}/Okular"
+  ."bin/okular.exe" "$@" &
+elif command -v "${ProgramFiles} (x86)/Okular/bin"/okular.exe >/dev/null 2>&1; then
+  cd "${ProgramFiles} (x86)/Okular"
+  ."bin/okular.exe" "$@" &
+else
+  echo "No executable okular.exe  found!"
+fi

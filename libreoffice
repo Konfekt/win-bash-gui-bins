@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if command -v soffice.exe  >/dev/null 2>&1; then
+  soffice.exe "$@" &
+elif command -v "${ProgramFiles}/LibreOffice/program"/soffice.exe >/dev/null 2>&1; then
+  cd "${ProgramFiles}/LibreOffice"
+  ."/program/soffice.exe" "$@" &
+elif command -v "${ProgramFiles} (x86)/LibreOffice/program"/soffice.exe >/dev/null 2>&1; then
+  cd "${ProgramFiles} (x86)/LibreOffice"
+  ."/program/soffice.exe" "$@" &
+else
+  echo "No executable soffice.exe  found!"
+fi

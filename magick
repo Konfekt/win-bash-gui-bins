@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if command -v magick.exe  >/dev/null 2>&1; then
+  magick.exe "$@"
+else
+  magick="$(ls "${ProgramFiles}/ImageMagick"*/magick.exe)" >/dev/null 2>&1 || magick="$(ls "${ProgramFiles} (x86)/ImageMagick"*/magick.exe)" >/dev/null 2>&1
+  if command -v "$magick" >/dev/null 2>&1; then
+    "$magick" "$@"
+  else
+    echo "No executable magick.exe  found!"
+  fi
+fi
