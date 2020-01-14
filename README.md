@@ -1,14 +1,14 @@
-Many (graphical user interface, for short, GUI) applications on Linux (such as [chromium](https://chocolatey.org/packages/chromium), [digikam](https://chocolatey.org/packages/digikam), [firefox](https://chocolatey.org/packages/firefox), [gimp](https://chocolatey.org/packages/gimp), [goldendict](https://chocolatey.org/packages/goldendict), [gvim](https://chocolatey.org/packages/vim), [inkscape](https://chocolatey.org/packages/inkscape), [krita](https://chocolatey.org/packages/krita), [libreoffice](https://chocolatey.org/packages/libreoffice), [imagemagick](https://chocolatey.org/packages/imagemagick), [mupdf](https://chocolatey.org/packages/mupdf), [okular](https://chocolatey.org/packages/okular), [scribus](https://chocolatey.org/packages/scribus), [vlc](https://chocolatey.org/packages/vlc), [zeal](https://chocolatey.org/packages/zeal)) have corresponding versions on Microsoft Windows.
+Many GUI (graphical user interface) applications on Linux have corresponding versions on Microsoft Windows, such as [chromium](https://chocolatey.org/packages/chromium), [digikam](https://chocolatey.org/packages/digikam), [firefox](https://chocolatey.org/packages/firefox), [gimp](https://chocolatey.org/packages/gimp), [goldendict](https://chocolatey.org/packages/goldendict), [gvim](https://chocolatey.org/packages/vim), [inkscape](https://chocolatey.org/packages/inkscape), [krita](https://chocolatey.org/packages/krita), [libreoffice](https://chocolatey.org/packages/libreoffice), [imagemagick](https://chocolatey.org/packages/imagemagick), [mupdf](https://chocolatey.org/packages/mupdf), [okular](https://chocolatey.org/packages/okular), [scribus](https://chocolatey.org/packages/scribus), [vlc](https://chocolatey.org/packages/vlc) and [zeal](https://chocolatey.org/packages/zeal).
 
 This repository contributes small Shell scripts to start these (GUI) applications from the `WSL` (Windows Subsystem for Linux) shell just like from a Linux shell.
-(Provided that their executables are in a directory in the Microsoft Windows environment variable `%PATH%`, which can be conveniently configured by, say, [Rapidee](https://www.rapidee.com), or installed to the standard installation path.)
+(Provided that their executables are installed to the standard installation path, or in a directory in the Microsoft Windows environment variable `%PATH%`, which can be conveniently configured by, say, [Rapidee](https://www.rapidee.com).)
 
 # Installation
 
 1. Clone this repository into `~/bin` by `mkdir -p ~/bin && cd ~/bin && git clone https://github.com/Konfekt/wsl-gui-bins`.
-2. To discover the standard installation paths, the shell scripts need to know the path of `%ProgramFiles` under WSL.
+2. To discover the standard installation paths, the shell scripts need to know the path of `%ProgramFiles%` under WSL.
     Also, the paths of the shell scripts have to be added to the environment variable `$PATH` in WSL.
-    For this, add to your `.profile` (or `.zshenv`) the lines
+    For this, add to your file `~/.profile` (for Bash, or `~/.zshenv` for ZSH) the lines
 
 ```sh
 if ! [ -z ${WSLENV+x} ]; then
@@ -37,7 +37,8 @@ As an upshot, the environment variables `$BROWSER` and `$PDFVIEWER` can be defin
 If you use `ZSH`, then to start `Batch` (and `CMD`) files as under Windows, define a suffix alias
 
 ```sh
-    alias -s {cmd,bat}='cmd.exe /c start /b'
+    _wslbatch() { eval cmd.exe /c "$(wslpath -w "$1")"; }
+    alias -s {cmd,bat}='_wslbatch'
 ```
 
 ----
