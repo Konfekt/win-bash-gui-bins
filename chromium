@@ -1,13 +1,5 @@
 #!/bin/sh
 
-if command -v chrome.exe >/dev/null 2>&1; then
-  chrome.exe "$@" &
-elif command -v "${ProgramFiles}/Chromium/Application"/chrome.exe >/dev/null 2>&1; then
-  cd "${ProgramFiles}/Chromium/Application"
-  "./chrome.exe" "$@" &
-elif command -v "${ProgramFiles} (x86)/Chromium/Application"/chrome.exe >/dev/null 2>&1; then
-  cd "${ProgramFiles} (x86)/Chromium/Application"
-  "./chrome.exe" "$@" &
-else
-  echo "No executable chrome.exe found!"
-fi
+ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
+
+PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Chromium/Application:${ProgramFiles} (x86)/Chromium/Application" chrome.exe "$@" &

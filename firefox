@@ -1,11 +1,6 @@
 #!/bin/sh
 
-if command -v firefox.exe  >/dev/null 2>&1; then
-  firefox.exe "$@" &
-elif command -v "${ProgramFiles}/Mozilla Firefox"/firefox.exe >/dev/null 2>&1; then
-  "${ProgramFiles}/Mozilla Firefox"/firefox.exe "$@" &
-elif command -v "${ProgramFiles} (x86)/Mozilla Firefox"/firefox.exe >/dev/null 2>&1; then
-  "${ProgramFiles} (x86)/Mozilla Firefox"/firefox.exe "$@" &
-else
-  echo "No executable firefox.exe  found!"
-fi
+ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
+
+PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Mozilla Firefox:${ProgramFiles} (x86)/Mozilla Firefox" firefox.exe "$@" &
+

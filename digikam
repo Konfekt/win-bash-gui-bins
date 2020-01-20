@@ -1,11 +1,6 @@
 #!/bin/sh
 
-if command -v digikam.exe  >/dev/null 2>&1; then
-  digikam.exe "$@" &
-elif command -v "${ProgramFiles}/digiKam"/digikam.exe >/dev/null 2>&1; then
-  "${ProgramFiles}/digiKam/digikam.exe" "$@" &
-elif command -v "${ProgramFiles} (x86)/digiKam"/digikam.exe >/dev/null 2>&1; then
-  "${ProgramFiles} (x86)/digiKam/digikam.exe" "$@" &
-else
-  echo "No executable digikam.exe  found!"
-fi
+ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
+
+PATH="${PATH:+"${PATH}:"}${ProgramFiles}/digiKam:${ProgramFiles} (x86)/digiKam" digikam.exe "$@" &
+

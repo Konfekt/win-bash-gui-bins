@@ -1,13 +1,6 @@
 #!/bin/sh
 
-if command -v vlc.exe  >/dev/null 2>&1; then
-  vlc.exe "$@" &
-elif command -v "${ProgramFiles}/VideoLAN/VLC"/vlc.exe >/dev/null 2>&1; then
-  cd "${ProgramFiles}/VideoLAN/VLC"
-  "./vlc.exe" "$@" &
-elif command -v "${ProgramFiles} (x86)/VideoLAN/VLC"/vlc.exe >/dev/null 2>&1; then
-  cd "${ProgramFiles} (x86)/VideoLAN/VLC"
-  "./vlc.exe" "$@" &
-else
-  echo "No executable vlc.exe  found!"
-fi
+ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
+
+PATH="${PATH:+"${PATH}:"}${ProgramFiles}/VideoLAN/VLC:${ProgramFiles} (x86)/VideoLAN/VLC" vlc.exe "$@" &
+

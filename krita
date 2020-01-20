@@ -1,11 +1,5 @@
 #!/bin/sh
 
-if command -v krita.exe  >/dev/null 2>&1; then
-  krita.exe "$@" &
-elif command -v "${ProgramFiles}/Krita (x64)/bin"/krita.exe >/dev/null 2>&1; then
-  "${ProgramFiles}/Krita (x64)/bin/krita.exe" "$@" &
-elif command -v "${ProgramFiles}/Krita (x86)/bin"/krita.exe >/dev/null 2>&1; then
-  "${ProgramFiles}/Krita (x86)/bin/krita.exe" "$@" &
-else
-  echo "No executable krita.exe  found!"
-fi
+ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
+
+PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Krita (x64)/bin:${ProgramFiles} (x86)/Krita (x86)/bin" krita.exe "$@" &

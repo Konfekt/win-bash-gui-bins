@@ -1,5 +1,7 @@
 #!/bin/sh
 
+ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
+
 if command -v scribus.exe  >/dev/null 2>&1; then
   scribus.exe "$@" &
 else

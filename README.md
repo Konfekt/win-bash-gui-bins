@@ -6,21 +6,11 @@ This repository contributes small Shell scripts to start these (GUI) application
 # Installation
 
 1. Clone this repository into `~/bin` by `mkdir -p ~/bin && cd ~/bin && git clone https://github.com/Konfekt/wsl-gui-bins`.
-2. To discover the standard installation paths, the shell scripts need to know the path of `%ProgramFiles%` under WSL.
-    Also, the paths of the shell scripts have to be added to the environment variable `$PATH` in WSL.
-    For this, add to your file `~/.profile` (for Bash, or `~/.zshenv` for ZSH) the lines
+2. The paths of the shell scripts have to be added to the environment variable `$PATH` in WSL.
+    For this, add to your file `~/.profile` (for Bash, or `~/.zshenv` for ZSH) the line
 
 ```sh
-if ! [ -z ${WSLENV+x} ]; then
-    export ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
-    if [ -d "${HOME}/bin/wsl-gui-bins" ] && [[ ":${PATH}:" != *":${HOME}/bin/wsl-gui-bins:"* ]] ; then
-        if [ $UID -ge 1000 ]; then
-            export PATH="$HOME/bin/wsl-gui-bins${PATH:+":$PATH"}"
-        else
-            export PATH="${PATH:+"$PATH:"}$HOME/bin/wsl-gui-bins"
-        fi
-    fi
-fi
+[ -z ${WSLENV+x} ] || export PATH="${PATH:+"$PATH:"}$HOME/bin/wsl-gui-bins"
 ```
 
 # Hints
@@ -56,6 +46,7 @@ This lets you, for example, open the current work dir in `Windows Explorer` by `
 As an alternative to an image viewer such as `feh` or `sviv` on Linux, install [irfanview](https://chocolatey.org/packages/irfanview) and define an alias `iv` by
 
 ```sh
+ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 if command -v i_view64.exe >/dev/null 2>&1; then
   alias iv='i_view64.exe'
 elif command -v "${ProgramFiles}/IrfanView"/i_view64.exe >/dev/null 2>&1; then
