@@ -84,3 +84,7 @@ To open the current work dir in [totalcommander](https://chocolatey.org/packages
   alias totalcmd >/dev/null 2>&1 && alias o.='totalcmd /O /T /R="$(wslpath -w "$(pwd)")"'
 ```
 
+# Related
+
+The repository [xclip-xsel-WSL](https://github.com/Konfekt/xclip-xsel-WSL) contributes a small Shell script to make `xclip` and `xsel` in `WSL` (Windows Subsystem for Linux) read and write on the Microsoft Windows clipboard instead of the Linux clipboard.
+
