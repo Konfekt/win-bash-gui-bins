@@ -1,0 +1,7 @@
+#!/bin/sh
+
+ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
+
+# From https://github.com/Syncplay/syncplay/blob/573e09a2709b46d570ed592702b8c31199297e3a/syncplay/constants.py#L166
+PATH="${PATH:+"${PATH}:"}${ProgramFiles}/mpv-player:${ProgramFiles} (x86)/mpv-player:${ProgramFiles}/MPV:${ProgramFiles} (x86)/MPV:${ProgramFiles}/SMplayer/mpv:${ProgramFiles} (x86)/SMplayer/mpv" mpv.exe "$@" &
+
