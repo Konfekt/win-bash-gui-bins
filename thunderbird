@@ -1,0 +1,6 @@
+#!/bin/sh
+
+ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
+
+PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Mozilla Thunderbird:${ProgramFiles} (x86)/Mozilla Thunderbird" thunderbird.exe "$@" &
+
