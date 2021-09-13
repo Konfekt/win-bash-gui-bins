@@ -1,13 +1,16 @@
-#!/bin/sh
+#!/bin/bash
+
+eval last=\"\${$#}\"
+[ -e "$last" ] && last="$(wslpath -w "$last")"
 
 ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 
 if command -v scribus.exe  >/dev/null 2>&1; then
-  scribus.exe "$@" &
+  scribus.exe ${@:1:$(($# - 1))} "$last" &
 else
   scribus="$(ls "${ProgramFiles}/Scribus"*/scribus.exe)" >/dev/null 2>&1 || scribus="$(ls "${ProgramFiles} (x86)/Scribus"*/scribus.exe)" >/dev/null 2>&1
   if command -v "$scribus" >/dev/null 2>&1; then
-    "$scribus" "$@"
+    "$scribus" ${@:1:$(($# - 1))} "$last" &
   else
     echo "No executable scribus.exe  found!"
   fi

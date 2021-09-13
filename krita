@@ -1,5 +1,8 @@
-#!/bin/sh
+#!/bin/bash
+
+eval last=\"\${$#}\"
+[ -e "$last" ] && last="$(wslpath -w "$last")"
 
 ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 
-PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Krita (x64)/bin:${ProgramFiles} (x86)/Krita (x86)/bin" krita.exe "$@" &
+PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Krita (x64)/bin:${ProgramFiles} (x86)/Krita (x86)/bin" krita.exe ${@:1:$(($# - 1))} "$last" &

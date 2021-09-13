@@ -27,16 +27,18 @@ As an upshot, the environment variables `$BROWSER` and `$PDFVIEWER` can be defin
 If you use `ZSH`, then to start `Batch` (and `CMD`) files as under Windows, define a suffix alias
 
 ```sh
-    _wslbatch() { eval cmd.exe /c "$(wslpath -w "$1")"; }
-    alias -s {cmd,bat}='_wslbatch'
+  wslbatch() { eval cmd.exe /c "$(wslpath -w "$1")"; }
+  alias -s {cmd,bat}='wslbatch'
 ```
 
 ----
 
-As an alternative to `xdg-open` (or `open` on `MacOS`), define an alias
+To imitate `xdg-open` (or `open` on `MacOS`), define aliases
 
 ```sh
-    alias o='cmd.exe /c start /b'
+  xdg_open() { eval cmd.exe /c /start /b "$(wslpath -w "$1")"; }
+  alias xdg-open=xdg_open
+  alias     open=xdg_open
 ```
 
 This lets you, for example, open the current work dir in `Windows Explorer` by `o .`.
@@ -47,12 +49,10 @@ As an alternative to an image viewer such as `feh` or `sviv` on Linux, install [
 
 ```sh
 ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
-if command -v i_view64.exe >/dev/null 2>&1; then
-  alias iv='i_view64.exe'
-elif command -v "${ProgramFiles}/IrfanView"/i_view64.exe >/dev/null 2>&1; then
-  alias iv="${ProgramFiles}/IrfanView/i_view64.exe"
-elif command -v "${ProgramFiles} (x86)/IrfanView"/i_view32.exe >/dev/null 2>&1; then
-  alias iv="${ProgramFiles} (x86)/IrfanView/i_view32.exe"
+if   [ -x "${ProgramFiles}/IrfanView"/i_view64.exe ]; then
+  iv() { if [ $# -eq 1 ] && [ -e "$1" ]; then "${ProgramFiles}/IrfanView/i_view64.exe" "$(wslpath -w "$1")"; else "${ProgramFiles}/IrfanView/i_view64.exe" "$@"; fi; }
+elif [ -x "${ProgramFiles} (x86)/IrfanView"/i_view32.exe ]; then
+  iv() { if [ $# -eq 1 ] && [ -e "$1" ]; then "${ProgramFiles}/IrfanView/i_view32.exe" "$(wslpath -w "$1")"; else "${ProgramFiles}/IrfanView/i_view32.exe" "$@"; fi; }
 fi
 ```
 
@@ -72,19 +72,11 @@ To open the current work dir in [totalcommander](https://chocolatey.org/packages
   COMMANDER_PATH="$(wslpath "$(cmd.exe /c "<nul set /p=%COMMANDER_PATH%" 2>/dev/null)")"
   if [ -d "$COMMANDER_PATH" ] ; then
     if [ -f "$COMMANDER_PATH"/totalcmd64.exe ]; then
-      alias totalcmd="$COMMANDER_PATH/totalcmd64.exe"
+      totalcmd() { if [ $# -eq 1 ] && [ -e "$1" ]; then "$COMMANDER_PATH/totalcmd64.exe" "$(wslpath -w "$1")"; else "$COMMANDER_PATH/totalcmd64.exe" "$@"; fi; }
     elif [ -f "$COMMANDER_PATH"/totalcmd.exe ]; then
-      alias totalcmd="$COMMANDER_PATH/totalcmd.exe"
+      totalcmd() { if [ $# -eq 1 ] && [ -e "$1" ]; then "$COMMANDER_PATH/totalcmd.exe" "$(wslpath -w "$1")"; else "$COMMANDER_PATH/totalcmd.exe" "$@"; fi; }
     fi
-  elif command -v totalcmd64.exe >/dev/null 2>&1 ; then
-    alias totalcmd="totalcmd64.exe"
-  elif command -v totalcmd.exe >/dev/null 2>&1 ; then
-    alias totalcmd="totalcmd.exe"
   fi
   alias totalcmd >/dev/null 2>&1 && alias o.='totalcmd /O /T /R="$(wslpath -w "$(pwd)")"'
 ```
-
-# Related
-
-The repository [xclip-xsel-WSL](https://github.com/Konfekt/xclip-xsel-WSL) contributes a small Shell script to make `xclip` and `xsel` in `WSL` (Windows Subsystem for Linux) read and write on the Microsoft Windows clipboard instead of the Linux clipboard.
 

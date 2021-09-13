@@ -1,7 +1,10 @@
-#!/bin/sh
+#!/bin/bash
+
+eval last=\"\${$#}\"
+[ -e "$last" ] && last="$(wslpath -w "$last")"
 
 if command -v magick  >/dev/null 2>&1; then
-  magick mogrify "$@"
+  magick mogrify ${@:1:$(($# - 1))} "$last"
 else
   echo "No executable magick.exe  found!"
 fi

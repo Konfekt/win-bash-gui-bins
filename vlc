@@ -1,6 +1,9 @@
-#!/bin/sh
+#!/bin/bash
+
+eval last=\"\${$#}\"
+[ -e "$last" ] && last="$(wslpath -w "$last")"
 
 ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 
-PATH="${PATH:+"${PATH}:"}${ProgramFiles}/VideoLAN/VLC:${ProgramFiles} (x86)/VideoLAN/VLC" vlc.exe "$@" &
+PATH="${PATH:+"${PATH}:"}${ProgramFiles}/VideoLAN/VLC:${ProgramFiles} (x86)/VideoLAN/VLC" vlc.exe ${@:1:$(($# - 1))} "$last" &
 

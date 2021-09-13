@@ -1,6 +1,9 @@
-#!/bin/sh
+#!/bin/bash
+
+eval last=\"\${$#}\"
+[ -e "$last" ] && last="$(wslpath -w "$last")"
 
 ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 
-PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Okular/bin:${ProgramFiles} (x86)/Okular/bin" okular.exe "$@" &
+PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Okular/bin:${ProgramFiles} (x86)/Okular/bin" okular.exe ${@:1:$(($# - 1))} "$last" &
 

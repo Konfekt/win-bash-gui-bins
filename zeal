@@ -1,5 +1,8 @@
-#!/bin/sh
+#!/bin/bash
+
+eval last=\"\${$#}\"
+[ -e "$last" ] && last="$(wslpath -w "$last")"
 
 ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 
-PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Zeal:${ProgramFiles} (x86)/Zeal" zeal.exe "$@" &
+PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Zeal:${ProgramFiles} (x86)/Zeal" zeal.exe ${@:1:$(($# - 1))} "$last" &

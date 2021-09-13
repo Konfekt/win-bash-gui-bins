@@ -1,6 +1,9 @@
-#!/bin/sh
+#!/bin/bash
+
+eval last=\"\${$#}\"
+[ -e "$last" ] && last="$(wslpath -w "$last")"
 
 ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 
-PATH="${PATH:+"${PATH}:"}${ProgramFiles}/LibreOffice/program:${ProgramFiles} (x86)/LibreOffice/program" soffice.exe "$@" &
+PATH="${PATH:+"${PATH}:"}${ProgramFiles}/LibreOffice/program:${ProgramFiles} (x86)/LibreOffice/program" soffice.exe ${@:1:$(($# - 1))} "$last" &
 

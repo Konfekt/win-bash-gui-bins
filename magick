@@ -1,13 +1,16 @@
-#!/bin/sh
+#!/bin/bash
+
+eval last=\"\${$#}\"
+[ -e "$last" ] && last="$(wslpath -w "$last")"
 
 ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 
 if command -v magick.exe  >/dev/null 2>&1; then
-  magick.exe "$@"
+  magick.exe ${@:1:$(($# - 1))} "$last"
 else
   magick="$(ls "${ProgramFiles}/ImageMagick"*/magick.exe)" >/dev/null 2>&1 || magick="$(ls "${ProgramFiles} (x86)/ImageMagick"*/magick.exe)" >/dev/null 2>&1
   if command -v "$magick" >/dev/null 2>&1; then
-    "$magick" "$@"
+    "$magick" ${@:1:$(($# - 1))} "$last"
   else
     echo "No executable magick.exe  found!"
   fi
