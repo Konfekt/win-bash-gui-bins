@@ -5,5 +5,5 @@
 
 ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 
-PATH="${PATH:+"${PATH}:"}${ProgramFiles}/LibreOffice/program:${ProgramFiles} (x86)/LibreOffice/program" soffice.exe "$@" ${last:+"$last"} &
+PATH="${PATH:+"${PATH}:"}${ProgramFiles}/LibreOffice/program:${ProgramFiles} (x86)/LibreOffice/program" soffice.exe "$@" ${last:+"$last"}
 

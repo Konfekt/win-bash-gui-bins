@@ -6,15 +6,15 @@
 ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 
 if command -v gimp.exe  >/dev/null 2>&1; then
-  gimp.exe "$@" ${last:+"$last"} &
+  gimp.exe "$@" ${last:+"$last"}
 elif [ -d "${ProgramFiles}/GIMP 2" ]; then
   cd "${ProgramFiles}/GIMP 2"
   gimp="$(ls "./bin/"gimp-2.*.exe)"
-  $gimp "$@" ${last:+"$last"} &
+  $gimp "$@" ${last:+"$last"}
 elif [ -d "${ProgramFiles} (x86)/GIMP 2" ]; then
   cd "${ProgramFiles} (x86)/GIMP 2"
   gimp="$(ls "./bin/"gimp-2.*.exe)"
-  $gimp "$@" ${last:+"$last"} &
+  $gimp "$@" ${last:+"$last"}
 else
   echo "No executable gimp.exe found!"
 fi

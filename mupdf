@@ -4,7 +4,7 @@
 [ -e "$last" ] && last="$(wslpath -w "$last")"
 
 if command -v mupdf.exe  >/dev/null 2>&1; then
-  mupdf.exe "$@" ${last:+"$last"} &
+  mupdf.exe "$@" ${last:+"$last"}
 else
   echo "No executable mupdf.exe  found!"
 fi

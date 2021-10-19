@@ -5,5 +5,5 @@
 
 ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 
-PATH="${PATH:+"${PATH}:"}${ProgramFiles}/SMplayer:${ProgramFiles} (x86)/SMplayer" smplayer.exe "$@" ${last:+"$last"} &
+PATH="${PATH:+"${PATH}:"}${ProgramFiles}/SMplayer:${ProgramFiles} (x86)/SMplayer" smplayer.exe "$@" ${last:+"$last"}
 
