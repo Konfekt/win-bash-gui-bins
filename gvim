@@ -1,12 +1,12 @@
 #!/bin/bash
 
-eval last=\"\${$#}\"
+[ $# -ge 1 ] && eval last=\"\${$#}\" && shift
 [ -e "$last" ] && last="$(wslpath -w "$last")"
 
 ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 
 if command -v gvim.bat  >/dev/null 2>&1; then
-  cmd.exe /c start /b gvim.bat ${@:1:$(($# - 1))} "$last" &
+  cmd.exe /c start /b gvim.bat "$@" ${last:+"$last"} &
 else
-  PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Vim/bin:${ProgramFiles} (x86)/Vim/bin" gvim.exe ${@:1:$(($# - 1))} "$last" &
+  PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Vim/bin:${ProgramFiles} (x86)/Vim/bin" gvim.exe "$@" ${last:+"$last"} &
 fi

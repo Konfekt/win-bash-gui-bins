@@ -1,10 +1,10 @@
 #!/bin/bash
 
-eval last=\"\${$#}\"
+[ $# -ge 1 ] && eval last=\"\${$#}\" && shift
 [ -e "$last" ] && last="$(wslpath -w "$last")"
 
 if command -v mupdf.exe  >/dev/null 2>&1; then
-  mupdf.exe ${@:1:$(($# - 1))} "$last" &
+  mupdf.exe "$@" ${last:+"$last"} &
 else
   echo "No executable mupdf.exe  found!"
 fi

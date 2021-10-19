@@ -1,10 +1,10 @@
 #!/bin/bash
 
-eval last=\"\${$#}\"
+[ $# -ge 1 ] && eval last=\"\${$#}\" && shiftval last=\"\${$#}\"
 [ -e "$last" ] && last="$(wslpath -w "$last")"
 
 if command -v magick  >/dev/null 2>&1; then
-  magick convert ${@:1:$(($# - 1))} "$last"
+  magick convert "$@" ${last:+"$last"}
 else
   echo "No executable magick.exe  found!"
 fi

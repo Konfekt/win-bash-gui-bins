@@ -1,8 +1,8 @@
 #!/bin/bash
 
-eval last=\"\${$#}\"
+[ $# -ge 1 ] && eval last=\"\${$#}\" && shift
 [ -e "$last" ] && last="$(wslpath -w "$last")"
 
 ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
-PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Mozilla Firefox:${ProgramFiles} (x86)/Mozilla Firefox" firefox.exe ${@:1:$(($# - 1))} "$last" &
+PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Mozilla Firefox:${ProgramFiles} (x86)/Mozilla Firefox" firefox.exe "$@" ${last:+"$last"} &
 
