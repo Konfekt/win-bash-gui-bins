@@ -1,0 +1,21 @@
+#!/bin/bash
+
+[ $# -ge 1 ] && eval last=\"\${$#}\" && shift
+[ -e "$last" ] && last="$(wslpath -w "$last")"
+
+ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
+COMMANDER_PATH="$(wslpath "$(cmd.exe /c "<nul set /p=%COMMANDER_PATH%" 2>/dev/null)")"
+
+if command -v totalcmd64.exe  >/dev/null 2>&1; then
+  totalcmd64.exe "$@" ${last:+"$last"}
+elif command -v totalcmd.exe  >/dev/null 2>&1; then
+  totalcmd.exe "$@" ${last:+"$last"}
+elif   [ -x "$COMMANDER_PATH/totalcmd64.exe" ]; then
+  "$COMMANDER_PATH/totalcmd64.exe" "$@" ${last:+"$last"}
+elif   [ -x "$COMMANDER_PATH/totalcmd.exe" ]; then
+  "$COMMANDER_PATH/totalcmd.exe" "$@" ${last:+"$last"}
+elif   [ -x "${ProgramFiles}/Total Commander/totalcmd64.exe" ]; then
+  "${ProgramFiles}/Total Commander/totalcmd64.exe" "$@" ${last:+"$last"}
+elif   [ -x "${ProgramFiles} (x86)/Total Commander/totalcmd.exe" ]; then
+  "${ProgramFiles} (x86)/Total Commander/totalcmd.exe" "$@" ${last:+"$last"}
+fi

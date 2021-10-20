@@ -22,17 +22,6 @@ As an upshot, the environment variables `$BROWSER` and `$PDFVIEWER` can be defin
     export PDFVIEWER=mupdf
 ```
 
-----
-
-If you use `ZSH`, then to start `Batch` (and `CMD`) files as under Windows, define a suffix alias
-
-```sh
-  wslbatch() { eval cmd.exe /c "$(wslpath -w "$1")"; }
-  alias -s {cmd,bat}='wslbatch'
-```
-
-----
-
 To imitate `xdg-open` (or `open` on `MacOS`), define aliases
 
 ```sh
@@ -43,40 +32,30 @@ To imitate `xdg-open` (or `open` on `MacOS`), define aliases
 
 This lets you, for example, open the current work dir in `Windows Explorer` by `o .`.
 
-----
+## Batch files
 
-As an alternative to an image viewer such as `feh` or `sviv` on Linux, install [irfanview](https://chocolatey.org/packages/irfanview) and define an alias `iv` by
+If you use `ZSH`, then to start `Batch` (and `CMD`) files as under Windows, define a suffix alias
 
 ```sh
-ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
-if   [ -x "${ProgramFiles}/IrfanView"/i_view64.exe ]; then
-  iv() { if [ $# -eq 1 ] && [ -e "$1" ]; then "${ProgramFiles}/IrfanView/i_view64.exe" "$(wslpath -w "$1")"; else "${ProgramFiles}/IrfanView/i_view64.exe" "$@"; fi; }
-elif [ -x "${ProgramFiles} (x86)/IrfanView"/i_view32.exe ]; then
-  iv() { if [ $# -eq 1 ] && [ -e "$1" ]; then "${ProgramFiles}/IrfanView/i_view32.exe" "$(wslpath -w "$1")"; else "${ProgramFiles}/IrfanView/i_view32.exe" "$@"; fi; }
-fi
+  wslbatch() { eval cmd.exe /c "$(wslpath -w "$1")"; }
+  alias -s {cmd,bat}='wslbatch'
 ```
 
-----
+## File manager
 
-If you use `ZSH`, then to view an image file by entering its path on the command line, define a suffix alias
+As a file manager, install [totalcommander](https://chocolatey.org/packages/totalcommander) to start it by `totalcmd`.
+To open the current work dir in by an alias, say `o.` :
 
 ```sh
-alias -s {tiff,raw,jpg,jpeg,png,gif,bmp}='iv'
+  command -v totalcmd >/dev/null 2>&1 && alias o.='totalcmd /O /T /R="$(wslpath -w "$(pwd)")"'
 ```
 
-----
+## Image Viewer
 
-To open the current work dir in [totalcommander](https://chocolatey.org/packages/totalcommander) by an alias, say `o.`,
+As an alternative to an image viewer such as `feh` or `sviv` on Linux, install [irfanview](https://chocolatey.org/packages/irfanview) to start it by `iv`.
+If you use `ZSH`, then to view an image file by entering its path on the command line, define a suffix alias :
 
 ```sh
-  COMMANDER_PATH="$(wslpath "$(cmd.exe /c "<nul set /p=%COMMANDER_PATH%" 2>/dev/null)")"
-  if [ -d "$COMMANDER_PATH" ] ; then
-    if [ -f "$COMMANDER_PATH"/totalcmd64.exe ]; then
-      totalcmd() { if [ $# -eq 1 ] && [ -e "$1" ]; then "$COMMANDER_PATH/totalcmd64.exe" "$(wslpath -w "$1")"; else "$COMMANDER_PATH/totalcmd64.exe" "$@"; fi; }
-    elif [ -f "$COMMANDER_PATH"/totalcmd.exe ]; then
-      totalcmd() { if [ $# -eq 1 ] && [ -e "$1" ]; then "$COMMANDER_PATH/totalcmd.exe" "$(wslpath -w "$1")"; else "$COMMANDER_PATH/totalcmd.exe" "$@"; fi; }
-    fi
-  fi
-  alias totalcmd >/dev/null 2>&1 && alias o.='totalcmd /O /T /R="$(wslpath -w "$(pwd)")"'
+command -v iv  >/dev/null 2>&1 && alias -s {tiff,raw,jpg,jpeg,png,gif,bmp}='iv'
 ```
 

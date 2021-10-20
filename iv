@@ -1,0 +1,17 @@
+#!/bin/bash
+
+[ $# -ge 1 ] && eval last=\"\${$#}\" && shift
+[ -e "$last" ] && last="$(wslpath -w "$last")"
+
+ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
+
+if command -v i_view64.exe  >/dev/null 2>&1; then
+  i_view64.exe "$@" ${last:+"$last"}
+elif command -v i_view32.exe  >/dev/null 2>&1; then
+  i_view32.exe "$@" ${last:+"$last"}
+elif   [ -x "${ProgramFiles}/IrfanView"/i_view64.exe ]; then
+  "${ProgramFiles}/IrfanView/i_view64.exe" "$@" ${last:+"$last"}
+elif [ -x "${ProgramFiles} (x86)/IrfanView"/i_view32.exe ]; then
+  "${ProgramFiles} (x86)/IrfanView/i_view32.exe" "$@" ${last:+"$last"}
+fi
+
