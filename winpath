@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+[ -n "${IS_WSL}" ] && [ -z "${WSL_DISTRO_NAME+x}" ] && export WSL_DISTRO_NAME="$IS_WSL"
+
+if ! [ -z ${WSL_DISTRO_NAME+x} ]; then
+  wslpath "$@"
+elif ! [ -z ${MSYSTEM+x} ]; then
+  cygpath "$@"
+else 
+  echo "$@"
+fi

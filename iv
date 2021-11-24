@@ -1,9 +1,9 @@
 #!/bin/bash
 
 [ $# -ge 1 ] && eval last=\"\${$#}\" && shift
-[ -e "$last" ] && last="$(wslpath -w "$last")"
+[ -e "$last" ] && last="$(winpath -aw "$last")"
 
-ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
+ProgramFiles="$(winpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 
 if command -v i_view64.exe  >/dev/null 2>&1; then
   i_view64.exe "$@" ${last:+"$last"}

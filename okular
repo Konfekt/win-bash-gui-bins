@@ -1,10 +1,10 @@
 #!/bin/bash
 
 [ $# -ge 1 ] && eval last=\"\${$#}\" && shift
-[ -e "$last" ] && last="$(wslpath -w "$last")"
+[ -e "$last" ] && last="$(winpath -aw "$last")"
 [ $# -gt 1 ] && prev=${@:1:$(($# - 1))}
 
-ProgramFiles="$(wslpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
+ProgramFiles="$(winpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 
 PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Okular/bin:${ProgramFiles} (x86)/Okular/bin" okular.exe "$@" ${last:+"$last"}
 
