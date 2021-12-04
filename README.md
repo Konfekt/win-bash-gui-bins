@@ -28,23 +28,24 @@ As an upshot, the environment variables `$BROWSER` and `$PDFVIEWER` can be defin
     export PDFVIEWER=mupdf
 ```
 
-To imitate `xdg-open` (or `open` on `MacOS`), define aliases
+## Imitate (XDG)-Open 
+
+To imitate `xdg-open` (and `open` from `MacOS`) under `WSL`,
 
 ```sh
-  xdg_open() { eval cmd.exe /c /start /b "$(winpath -aw "$1")"; }
+  xdg_open() { eval cmd.exe /c /start /b "$(wslpath -aw "$1")"; }
   alias xdg-open=xdg_open
   alias     open=xdg_open
 ```
 
-This lets you, for example, open the current work dir in `Windows Explorer` by `o .`.
+This lets you, for example, open the current work dir in `Windows Explorer` by `open .`.
+For a more thorough solution, put the bash script [wsl-open.sh](https://raw.githubusercontent.com/4U6U57/wsl-open/master/wsl-open.sh) into a folder listed in your `$PATH` environment variable, mark it executable and alias `(xdg-)open` to its file path.
 
-## Batch files under WSL
-
-If you use `ZSH` under `WSL`, then to start `Batch` (and `CMD`) files as under Windows, define a suffix alias
+Under `Git-Bash`, the following aliases suffice:
 
 ```sh
-  wslbatch() { eval cmd.exe /c "$(wslpath -aw "$1")"; }
-  alias -s {cmd,bat}='wslbatch'
+  alias xdg-open=start
+  alias     open=start
 ```
 
 ## File manager
@@ -63,5 +64,14 @@ If you use `ZSH`, then to view an image file by entering its path on the command
 
 ```sh
 command -v iv  >/dev/null 2>&1 && alias -s {tiff,raw,jpg,jpeg,png,gif,bmp}='iv'
+```
+
+## Run Batch files in ZSH under WSL
+
+If you use `ZSH` under `WSL`, then to start `Batch` (and `CMD`) files as under Windows, define a suffix alias
+
+```sh
+  wslbatch() { eval cmd.exe /c "$(wslpath -aw "$1")"; }
+  alias -s {cmd,bat}='wslbatch'
 ```
 

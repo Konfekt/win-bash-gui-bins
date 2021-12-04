@@ -5,4 +5,4 @@
 
 ProgramFiles="$(winpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 
-PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Zeal:${ProgramFiles} (x86)/Zeal" zeal.exe "$@" ${last:+"$last""$@" ${last:+"$last"}
+PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Zeal:${ProgramFiles} (x86)/Zeal" zeal.exe "$@" ${last:+"$last"}

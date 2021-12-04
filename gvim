@@ -6,9 +6,9 @@
 ProgramFiles="$(winpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 
 if command -v gvim.bat  >/dev/null 2>&1; then
-  if ! [ -z ${WSL_DISTRO_NAME+x} ]; then
+  if [ -n ${WSL_DISTRO_NAME+x} ]; then
     cmd.exe /c gvim.bat "$@" ${last:+"$last"} >/dev/null 2>&1
-  elif ! [ -z ${MSYSTEM+x} ]; then
+  elif [ -n ${MSYSTEM+x} ]; then
     gvim.bat "$@" ${last:+"$last"}
   fi
 else
