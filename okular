@@ -2,7 +2,6 @@
 
 [ $# -ge 1 ] && eval last=\"\${$#}\" && shift
 [ -e "$last" ] && last="$(winpath -aw "$last")"
-[ $# -gt 1 ] && prev=${@:1:$(($# - 1))}
 
 ProgramFiles="$(winpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 
