@@ -1,7 +1,7 @@
 #!/bin/bash
 
-[ $# -ge 1 ] && eval last=\"\${$#}\" && shift
-[ -e "$last" ] && last="$(winpath -aw "$last")"
+[ $# -ge 1 ] && eval last=\"\${$#}\"
+[ -e "$last" ] && last="$(winpath -aw "$last")" && set -- "${@:1:$(($#-1))}"
 
 ProgramFiles="$(winpath "$(cmd.exe /c "<nul set /p=%ProgramFiles%" 2>/dev/null)")"
 PATH="${PATH:+"${PATH}:"}${ProgramFiles}/Mozilla Firefox:${ProgramFiles} (x86)/Mozilla Firefox" firefox.exe "$@" ${last:+"$last"}
